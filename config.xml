@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tabakovnik>
+	<znacky>
+		<znacka cena="90" nazev="Nakhla">
+			<tabak je="ano" nazev="Arabská káva"/>
+			<tabak je="ano" nazev="Cappucino"/>
+			<tabak je="ano" nazev="Cardamon"/>
+			<tabak je="ano" nazev="Earl Grey"/>
+			<tabak je="ano" nazev="Jasmín"/>
+			<tabak je="ano" nazev="Karamel"/>
+			<tabak je="ano" nazev="Lékořice"/>
+			<tabak je="ano" nazev="Mandarinka"/>
+			<tabak je="ano" nazev="Meruňka"/>
+			<tabak je="ne" nazev="Máta"/>
+			<tabak je="ne" nazev="Růže"/>
+			<tabak je="ano" nazev="Skořice"/>
+			<tabak je="ano" nazev="Tropiko"/>
+			<tabak je="ano" nazev="Vanilka"/>
+			<tabak je="ano" nazev="Černý"/>
+			<tabak je="ano" nazev="Čokomint"/>
+		</znacka>
+		<znacka cena="100" nazev="Al-Waha">
+			<tabak je="ano" nazev="Broskev"/>
+			<tabak je="ano" nazev="Jahoda"/>
+			<tabak je="ano" nazev="Lékořice"/>
+			<tabak je="ano" nazev="Malina"/>
+			<tabak je="ano" nazev="Máta"/>
+			<tabak je="ano" nazev="Víno"/>
+		</znacka>
+		<znacka cena="125" nazev="Al-Fakher">
+			<tabak je="ne" nazev="Máta"/>
+			<tabak je="ano" nazev="Víno"/>
+		</znacka>
+	</znacky>
+</tabakovnik>
