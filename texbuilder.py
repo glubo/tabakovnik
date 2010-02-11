@@ -22,13 +22,14 @@ TDocStart = '''
 \\long\\def\\obvod #1{\\vbox{\\hrule \\hbox{\\vrule #1\\vrule}\\hrule}}
 \\def\\caj#1#2{\\hbox to \\wsloupec {\\fcaj#1\\leaders\\hbox{.}\\hfil#2 Kč}}
 \\def\\popis#1{\\hbox to \\wsloupec {\\it (#1)\\hfill}}
-\\def\\znacka#1#2{\\vtop {\\vskip 3pt \\hrule\\vskip 3pt \\hbox to \\wsloupec {\\fnadp #1 \\hfill #2 Kč\\hskip 1em}\\vskip 2pt\\hrule}}
-\\long\\def\\sloupecek#1{\\hbox to \\wsloupecek{\\vtop{#1}}}
+\\def\\znacka#1#2{\\vtop {\\vskip 3pt \\hrule\\vskip 2pt \\hbox to \\wsloupec {\\hskip 0.5em\\fnadp #1 \\hfill #2 Kč\\hskip 1em}\\vskip 2pt\\hrule}}
+\\long\\def\\sloupecek#1{\\baselineskip=1.0em\\hskip 0.2em\\hbox to \\wsloupecek{\\vtop{#1}}\\hfil}
 \\def\\tabak#1{\\hbox to \\wsloupecek {#1\\hfil}}
 
 
 \\def\\obdelnik {
 \\vbox  {
+\\hbox to \\wsloupec {\\fnadp Všechny dýmky jsou od 18-ti let\\hfil}\\vskip -1em
 '''.decode('utf-8')
 
 TDocEnd = '''
@@ -38,7 +39,9 @@ TDocEnd = '''
 }
 \\def\\radek{\\hbox to \\hsize {\\obvod{\\vbox to 0.3\\vsize{\\vskip 0pt plus 0.2fil \\hbox to 0.49\\hsize{\\hfil\\obdelnik\\hfil}\\vfil}}\\obvod{\\vbox to 0.3\\vsize{\\vskip 0pt plus 0.2fil \\hbox to 0.49\\hsize{\\hfil\\obdelnik\\hfil}\\vfil}}\\hfil}}
 \\radek
+\\vskip-1pt
 \\radek
+\\vskip-1pt
 \\radek
 \\bye
 '''.decode('utf-8')
