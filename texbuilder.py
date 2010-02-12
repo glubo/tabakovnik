@@ -23,12 +23,13 @@ TDocStart = '''
 \\def\\caj#1#2{\\hbox to \\wsloupec {\\fcaj#1\\leaders\\hbox{.}\\hfil#2 Kč}}
 \\def\\popis#1{\\hbox to \\wsloupec {\\it (#1)\\hfill}}
 \\def\\znacka#1#2{\\vtop {\\vskip 3pt \\hrule\\vskip 2pt \\hbox to \\wsloupec {\\hskip 0.5em\\fnadp #1 \\hfill #2 Kč\\hskip 1em}\\vskip 2pt\\hrule}}
-\\long\\def\\sloupecek#1{\\baselineskip=1.0em\\hskip 0.2em\\hbox to \\wsloupecek{\\vtop{#1}}\\hfil}
-\\def\\tabak#1{\\hbox to \\wsloupecek {#1\\hfil}}
+\\long\\def\\sloupecek#1{\\hskip 0.2em\\hbox to \\wsloupecek{\\vtop{\\baselineskip=0.0em#1}}\\hfil}
+\\def\\tabak#1{\\hbox to \\wsloupecek {\\vphantom{ČŽŘpj}#1\\hfil}\\vskip-2pt}
 
 
 \\def\\obdelnik {
 \\vbox  {
+\\vskip 2pt
 \\hbox to \\wsloupec {\\fnadp Všechny dýmky jsou od 18-ti let\\hfil}\\vskip -1em
 '''.decode('utf-8')
 
