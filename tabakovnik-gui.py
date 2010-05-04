@@ -19,6 +19,7 @@ import znacky
 ) = range(2)
 class Znackovnik:
 	def __init__(self, ):
+		self.radky = 3
 		self.setup = mysetup.setup()
 		self.hBox = gtk.HBox()
 		self.Z_listStore = gtk.ListStore (str, int) #UPDATE ON COLUMN CHANGE
@@ -70,14 +71,17 @@ class Znackovnik:
 		self.widget.add (self.vBox)
 		
 		self.RepopulateZ ()
+	def Radky (self, radky):
+		self.radky = radky
+		print 'baf'+str(radky)
 	def onAdd (self, widget):
 		nazev = gettextdialog.getText('<b>Přidání nového tabáku</b>', 'název:')
 		self.aZnacka.addTabak (znacky.tabak(nazev, 'ano'))
 		self.RepopulateT ()
 	def onPreview (self, widget):
-		znacky.znackyToTB (self.setup.znacky).GV('gv')
+		znacky.znackyToTB (self.setup.znacky, self.radky).GV('gv')
 	def onPrint (self, widget):
-		znacky.znackyToTB (self.setup.znacky).GV('lpr')
+		znacky.znackyToTB (self.setup.znacky, self.radky).GV('lpr')
 		
 	def RepopulateZ (self):
 		self.Z_listStore.clear()
@@ -121,6 +125,7 @@ class Tabakovnik:
 	def destroy(self, widget, data=None):
 		gtk.main_quit()
 	def __init__(self):
+		self.radku = 3
 		self.setup = mysetup.setup()
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.set_title('Tabakovnik')
@@ -143,10 +148,22 @@ class Tabakovnik:
 		file_menu_i.set_submenu (file_menu)
 
 		self.znackovnik = Znackovnik ()
+		self.RHBox = gtk.HBox ()
+		RadioRIII = gtk.RadioButton (None, "3 radky")
+		RadioRIII.connect("clicked", self.OnRadkyIII)
+		self.RHBox.add (RadioRIII)
+		RadioRII = gtk.RadioButton (RadioRIII, "2 radky")
+		RadioRII.connect("clicked", self.OnRadkyII)
+		self.RHBox.add (RadioRII)
+		self.VBox.pack_start (self.RHBox, False, False)
 		self.VBox.add (self.znackovnik.widget)
 
 
 		self.window.show_all()
+	def OnRadkyIII (self, widget, data=None):
+		self.znackovnik.Radky (3)
+	def OnRadkyII (self, widget, data=None):
+		self.znackovnik.Radky (2)
 	def main(self):
 		gtk.main()
 

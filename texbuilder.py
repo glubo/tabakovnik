@@ -33,7 +33,7 @@ TDocStart = '''
 \\hbox to \\wsloupec {\\fnadp Všechny dýmky jsou od 18-ti let\\hfil}\\vskip -1em
 '''.decode('utf-8')
 
-TDocEnd = '''
+TDocEnd_III = '''
 \\vskip 6pt
 \\vfil
 }
@@ -46,10 +46,22 @@ TDocEnd = '''
 \\radek
 \\bye
 '''.decode('utf-8')
+TDocEnd_II = '''
+\\vskip 6pt
+\\vfil
+}
+}
+\\def\\radek{\\hbox to \\hsize {\\obvod{\\vbox to 0.48\\vsize{\\vskip 0pt plus 0.2fil \\hbox to 0.49\\hsize{\\hfil\\obdelnik\\hfil}\\vfil}}\\obvod{\\vbox to 0.48\\vsize{\\vskip 0pt plus 0.2fil \\hbox to 0.49\\hsize{\\hfil\\obdelnik\\hfil}\\vfil}}\\hfil}}
+\\radek
+\\vskip-1pt
+\\radek
+\\bye
+'''.decode('utf-8')
 
 class TeXBuilder:
-	def __init__ (self):
+	def __init__ (self, radku=3):
 		self.obdelnik = u''
+		self.radku = radku
 		
 	def BeginObdelnik (self):
 		self.obdelnik = u''
@@ -70,7 +82,11 @@ class TeXBuilder:
 		ocwd = os.getcwd ()
 		os.chdir (tempdir)
 		f = open ('testTeXo.tex', 'w')
-		f.write(unicode (TDocStart+ self.obdelnik + TDocEnd).encode('UTF-8'))# )
+		if self.radku == 3:
+			f.write(unicode (TDocStart+ self.obdelnik + TDocEnd_III).encode('UTF-8'))
+		elif self.radku == 2:
+			f.write(unicode (TDocStart+ self.obdelnik + TDocEnd_II).encode('UTF-8'))
+		
 		f.close ()
 
 		os.spawnlp(os.P_WAIT, 'iconv', 'iconv', '-f','UTF-8', '-t', 'ISO8859-2', '-o', 't.tex', 'testTeXo.tex')
@@ -80,17 +96,5 @@ class TeXBuilder:
 		os.chdir (ocwd)
 		shutil.rmtree (tempdir)
 	def Print (self):
-		tempdir = tempfile.mkdtemp()
-		ocwd = os.getcwd ()
-		os.chdir (tempdir)
-		f = open ('testTeXo.tex', 'w')
-		f.write(unicode (TDocStart+ self.obdelnik + TDocEnd).encode('UTF-8'))# )
-		f.close ()
-
-		os.spawnlp(os.P_WAIT, 'iconv', 'iconv', '-f','UTF-8', '-t', 'ISO8859-2', '-o', 't.tex', 'testTeXo.tex')
-		os.spawnlp(os.P_WAIT, 'mv', 'mv', 't.tex', 'testTeXo.tex')
-		os.spawnlp(os.P_WAIT, 'pdfcsplain', 'pdfcsplain', 'testTeXo.tex')
-		os.spawnlp(os.P_WAIT, 'lpr', 'lpr', 'testTeXo.pdf')
-		os.chdir (ocwd)
-		shutil.rmtree (tempdir)
+		self.GV (action="lpr")
 

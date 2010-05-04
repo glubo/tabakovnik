@@ -81,8 +81,8 @@ def znackyFromElement (elem):
 		znacky.append (ty)
 	return znacky
 
-def znackyToTB (znacky):
-	tb = texbuilder.TeXBuilder ()
+def znackyToTB (znacky, radky):
+	tb = texbuilder.TeXBuilder (radku=radky)
 	tb.BeginObdelnik ()
 	for z in znacky:
 		z.toTeX (tb)
