@@ -12,11 +12,11 @@ import znacky
 (
     Z_COLUMN_NAZEV,
     Z_COLUMN_CENA,
-) = range(2)
+) = list(range(2))
 (
     T_COLUMN_NAZEV,
     T_COLUMN_JE,
-) = range(2)
+) = list(range(2))
 class Znackovnik:
 	def __init__(self, ):
 		self.radky = 3
@@ -53,13 +53,19 @@ class Znackovnik:
 
 		self.hBox.pack_start (self.T_treeScroll)
 		self.hBoxBut = gtk.HBox ()
-		self.BAdd = gtk.Button (u'_Přidat tabák')
+		self.BAdd = gtk.Button ('_Přidat tabák')
 		self.BAdd.connect ('clicked', self.onAdd)
 		self.hBoxBut.add (self.BAdd)
-		self.BPreview = gtk.Button (u'_Náhled')
+		self.BPreviewX = gtk.Button (u'Náhled Tabulky')
+		self.BPreviewX.connect ('clicked', self.onPreviewX)
+		self.hBoxBut.add (self.BPreviewX)
+		self.BPrintX = gtk.Button (u'Tisk Tabulky')
+		self.BPrintX.connect ('clicked', self.onPrintX)
+		self.hBoxBut.add (self.BPrintX)
+		self.BPreview = gtk.Button ('_Náhled')
 		self.BPreview.connect ('clicked', self.onPreview)
 		self.hBoxBut.add (self.BPreview)
-		self.BPrint = gtk.Button (u'_Tisk')
+		self.BPrint = gtk.Button ('_Tisk')
 		self.BPrint.connect ('clicked', self.onPrint)
 		self.hBoxBut.add (self.BPrint)
 
@@ -73,15 +79,19 @@ class Znackovnik:
 		self.RepopulateZ ()
 	def Radky (self, radky):
 		self.radky = radky
-		print 'baf'+str(radky)
+		print('baf'+str(radky))
 	def onAdd (self, widget):
 		nazev = gettextdialog.getText('<b>Přidání nového tabáku</b>', 'název:')
 		self.aZnacka.addTabak (znacky.tabak(nazev, 'ano'))
 		self.RepopulateT ()
 	def onPreview (self, widget):
-		znacky.znackyToTB (self.setup.znacky, self.radky).GV('gv')
+		znacky.znackyToTB (self.setup.znacky, self.radky).GV('evince')
+	def onPreviewX (self, widget):
+		znacky.znackyToTBX (self.setup.znacky).GV('evince')
 	def onPrint (self, widget):
 		znacky.znackyToTB (self.setup.znacky, self.radky).GV('lpr')
+	def onPrintX (self, widget):
+		znacky.znackyToTBX (self.setup.znacky).GV('lpr')
 		
 	def RepopulateZ (self):
 		self.Z_listStore.clear()
@@ -155,6 +165,9 @@ class Tabakovnik:
 		RadioRII = gtk.RadioButton (RadioRIII, "2 radky")
 		RadioRII.connect("clicked", self.OnRadkyII)
 		self.RHBox.add (RadioRII)
+		RadioRI = gtk.RadioButton (RadioRIII, "1 radky")
+		RadioRI.connect("clicked", self.OnRadkyI)
+		self.RHBox.add (RadioRI)
 		self.VBox.pack_start (self.RHBox, False, False)
 		self.VBox.add (self.znackovnik.widget)
 
@@ -164,6 +177,8 @@ class Tabakovnik:
 		self.znackovnik.Radky (3)
 	def OnRadkyII (self, widget, data=None):
 		self.znackovnik.Radky (2)
+	def OnRadkyI (self, widget, data=None):
+		self.znackovnik.Radky (1)
 	def main(self):
 		gtk.main()
 

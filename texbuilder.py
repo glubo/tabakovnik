@@ -57,25 +57,34 @@ TDocEnd_II = '''
 \\radek
 \\bye
 '''.decode('utf-8')
+TDocEnd_I = '''
+\\vskip 6pt
+\\vfil
+}
+}
+\\def\\radek{\\hbox to \\hsize {\\obvod{\\vbox to 0.98\\vsize{\\vskip 0pt plus 0.2fil \\hbox to 0.49\\hsize{\\hfil\\obdelnik\\hfil}\\vfil}}\\obvod{\\vbox to 0.98\\vsize{\\vskip 0pt plus 0.2fil \\hbox to 0.49\\hsize{\\hfil\\obdelnik\\hfil}\\vfil}}\\hfil}}
+\\radek
+\\bye
+'''.decode('utf-8')
 
 class TeXBuilder:
 	def __init__ (self, radku=3):
-		self.obdelnik = u''
+		self.obdelnik = ''
 		self.radku = radku
 		
 	def BeginObdelnik (self):
-		self.obdelnik = u''
+		self.obdelnik = ''
 	
 	def Znacka (self, nazev, cena):
-		self.obdelnik += u'\\znacka{'+unicode(nazev)+'}{'+unicode(cena)+u"}\n"
+		self.obdelnik += '\\znacka{'+str(nazev)+'}{'+str(cena)+"}\n"
 	def BPrvniSloupec (self):
-		self.obdelnik += u'\\hbox to \\wsloupec { \sloupecek {\n'
+		self.obdelnik += '\\hbox to \\wsloupec { \sloupecek {\n'
 	def EPrvniBDruhySloupec (self):
-		self.obdelnik += u'}\\sloupecek{\n'
+		self.obdelnik += '}\\sloupecek{\n'
 	def EDruhySloupec (self):
-		self.obdelnik += u'}\\hfil}\n'
+		self.obdelnik += '}\\hfil}\n'
 	def Tabak (self, nazev):
-		self.obdelnik += u'\\tabak{'+unicode(nazev)+'}\n'
+		self.obdelnik += '\\tabak{'+str(nazev)+'}\n'
 	
 	def GV (self, action='gv'):
 		tempdir = tempfile.mkdtemp()
@@ -83,9 +92,11 @@ class TeXBuilder:
 		os.chdir (tempdir)
 		f = open ('testTeXo.tex', 'w')
 		if self.radku == 3:
-			f.write(unicode (TDocStart+ self.obdelnik + TDocEnd_III).encode('UTF-8'))
+			f.write(str (TDocStart+ self.obdelnik + TDocEnd_III).encode('UTF-8'))
 		elif self.radku == 2:
-			f.write(unicode (TDocStart+ self.obdelnik + TDocEnd_II).encode('UTF-8'))
+			f.write(str (TDocStart+ self.obdelnik + TDocEnd_II).encode('UTF-8'))
+		elif self.radku == 1:
+			f.write(str (TDocStart+ self.obdelnik + TDocEnd_I).encode('UTF-8'))
 		
 		f.close ()
 

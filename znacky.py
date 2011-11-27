@@ -1,4 +1,5 @@
 import texbuilder
+import texbuilder2
 import locale
 
 class tabak:
@@ -7,8 +8,8 @@ class tabak:
 		self.je = je
 	def toElement (self, dom):
 		elem = dom.createElement ('tabak')
-		elem.setAttribute ("nazev", unicode(self.nazev))
-		elem.setAttribute ("je", unicode(self.je))
+		elem.setAttribute ("nazev", str(self.nazev))
+		elem.setAttribute ("je", str(self.je))
 		return elem
 	def toTeX (self, tb):
 		tb.Tabak (self.nazev)
@@ -33,16 +34,16 @@ class znacka:
 		self.tabaky.append (tabak)
 		self.tabaky.sort (TabakyCompare)
 	def toElement (self, dom):
-		elem = dom.createElement (u'znacka')
-		elem.setAttribute (u"nazev", unicode(self.nazev))
-		elem.setAttribute (u"cena", unicode(self.cena))
+		elem = dom.createElement ('znacka')
+		elem.setAttribute ("nazev", str(self.nazev))
+		elem.setAttribute ("cena", str(self.cena))
 		for t in self.tabaky:
 			elem.appendChild (t.toElement (dom))
 		return elem
 	def toTeX (self, tb):
 		count = 0
 		for t in self.tabaky:
-			if t.je == u"ano":
+			if t.je == "ano":
 				count += 1
 		if count == 0:
 			return
@@ -51,23 +52,29 @@ class znacka:
 		i = 0
 		sl = False
 		for t in self.tabaky:
-			if t.je == u"ano":
+			if t.je == "ano":
 				if i+1 > (count+count%2)/2. and not sl:
 					tb.EPrvniBDruhySloupec ()
 					sl = True
 				t.toTeX(tb)
 				i += 1
 		tb.EDruhySloupec ()
+	def toTeXX (self, tb):
+		count = 0
+		tb.Znacka (self.nazev, self.cena)
+		tb.BPrvniSloupec ()
+		for t in self.tabaky:
+			t.toTeX(tb)
 
 def znackaFromElement (elem):
-	nazev=u"Noname"
+	nazev="Noname"
 	cena = 0
-	if (elem.hasAttribute (u"nazev")):
-		nazev = elem.getAttribute (u"nazev")
-	if (elem.hasAttribute (u"cena")):
-		cena = elem.getAttribute (u"cena")
+	if (elem.hasAttribute ("nazev")):
+		nazev = elem.getAttribute ("nazev")
+	if (elem.hasAttribute ("cena")):
+		cena = elem.getAttribute ("cena")
 	znack = znacka(nazev=nazev, cena=cena)
-	elemsTabaky = elem.getElementsByTagName(u"tabak")
+	elemsTabaky = elem.getElementsByTagName("tabak")
 	for elementTabak in elemsTabaky:
 		ty = tabakFromElement (elementTabak)
 		znack.addTabak (ty)
@@ -75,7 +82,7 @@ def znackaFromElement (elem):
 
 def znackyFromElement (elem):
 	znacky = []
-	elemsZnacky = elem.getElementsByTagName(u"znacka")
+	elemsZnacky = elem.getElementsByTagName("znacka")
 	for elementZnack in elemsZnacky:
 		ty = znackaFromElement (elementZnack)
 		znacky.append (ty)
@@ -88,3 +95,10 @@ def znackyToTB (znacky, radky):
 		z.toTeX (tb)
 	return tb
 
+def znackyToTBX (znacky):
+	tb = texbuilder2.TeXBuilderX ()
+	tb.BeginObdelnik ()
+	for z in znacky:
+		z.toTeXX (tb)
+		tb.poZnacce()
+	return tb

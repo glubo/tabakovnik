@@ -6,7 +6,7 @@ class setup:
 	__shared_state = {}
 	def __init__ (self, path = 'config.xml'):
 		self.__dict__ = self.__shared_state
-		if not hasattr (self, u'znacky'):
+		if not hasattr (self, 'znacky'):
 			self.path = path
 			self.reload ()
 
@@ -16,13 +16,13 @@ class setup:
 		file.close ()
 
 
-		e = dom.getElementsByTagName(u"znacky")
+		e = dom.getElementsByTagName("znacky")
 		self.znacky = znacky.znackyFromElement (e[0])
 
 
 	def save (self):
-		dom = minidom.getDOMImplementation ().createDocument (None, u'tabakovnik', None)
-		elem = dom.createElement (u'znacky')
+		dom = minidom.getDOMImplementation ().createDocument (None, 'tabakovnik', None)
+		elem = dom.createElement ('znacky')
 		dom.firstChild.appendChild(elem)
 		for znacka in self.znacky:
 			elem.appendChild (znacka.toElement (dom))

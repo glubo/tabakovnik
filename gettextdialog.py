@@ -30,5 +30,5 @@ def getText(markup="", label="", smarkup=""):
 	dialog.destroy()
 	return text
 if __name__ == '__main__':
-	print "The name was %s" % getText("name","Name:","blb")
+	print("The name was %s" % getText("name","Name:","blb"))
 	gtk.main()
